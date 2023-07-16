@@ -3,6 +3,7 @@ import CartContext from "../../store/cart-context";
 import Modal from "../UI/Modal";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
+import swal from "sweetalert";
 
 function Cart(props) {
   const cartctx = useContext(CartContext);
@@ -28,6 +29,15 @@ function Cart(props) {
   );
   const totalAmount = `$${cartctx.totalAmount.toFixed(2)}`;
   const hasItem = cartctx.items.length > 0;
+  const orderBtnHandler = () => {
+    swal({
+      title: "Order Successful!",
+      text: "Your order has been received and is being processed.",
+      icon: "success",
+      button: "OK",
+    });
+    cartctx.clearCart();
+  };
 
   return (
     <Modal onClick={props.onHideCart}>
@@ -40,7 +50,11 @@ function Cart(props) {
         <button className={classes["button--alt"]} onClick={props.onHideCart}>
           Close
         </button>
-        {hasItem && <button className={classes.button}>Order</button>}
+        {hasItem && (
+          <button className={classes.button} onClick={orderBtnHandler}>
+            Order
+          </button>
+        )}
       </div>
     </Modal>
   );
